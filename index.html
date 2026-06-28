@@ -78,7 +78,30 @@
     background: var(--green-pale);
     clip-path: polygon(14% 0%, 100% 0%, 100% 100%, 0% 100%);
   }
-  .hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; max-width: 1200px; width: 100%; }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+    max-width: 1200px;
+    width: 100%;
+  }
+  .hero-left { display: flex; gap: 36px; align-items: flex-start; }
+  .hero-photo-wrap {
+    flex-shrink: 0;
+    width: 140px; height: 140px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 3px solid var(--green-mid);
+    box-shadow: 0 4px 20px rgba(14,54,33,0.15);
+    margin-top: 8px;
+  }
+  .hero-photo-wrap img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: center top;
+  }
+  .hero-text { flex: 1; }
   .hero-eyebrow {
     font-family: 'DM Mono', monospace;
     font-size: 12px;
@@ -89,7 +112,7 @@
   }
   .hero-name {
     font-family: 'Playfair Display', serif;
-    font-size: clamp(42px, 5vw, 72px);
+    font-size: clamp(36px, 4vw, 64px);
     font-weight: 900;
     line-height: 1.05;
     margin-bottom: 16px;
@@ -97,11 +120,11 @@
   }
   .hero-name span { color: var(--green-mid); }
   .hero-tagline {
-    font-size: 16px;
+    font-size: 15px;
     color: var(--text-muted);
     line-height: 1.75;
     margin-bottom: 36px;
-    max-width: 480px;
+    max-width: 440px;
   }
   .hero-cta { display: flex; gap: 16px; flex-wrap: wrap; }
   .btn-primary {
@@ -169,13 +192,14 @@
     font-size: clamp(28px, 3.5vw, 42px);
     font-weight: 700;
     line-height: 1.2;
-    margin-bottom: 48px;
+    margin-bottom: 16px;
     color: var(--green-dark);
   }
   .divider {
     width: 48px; height: 2px;
     background: var(--green-mid);
     margin-bottom: 48px;
+    margin-top: 0;
   }
 
   /* EXPERTISE GRID */
@@ -326,20 +350,53 @@
     padding: 6px 14px;
     border-radius: 20px;
     letter-spacing: 0.2px;
+    transition: background 0.2s, border-color 0.2s;
   }
+  .skill-tag:hover { background: rgba(255,255,255,0.15); border-color: rgba(255,255,255,0.35); }
 
   /* CONTACT */
-  .contact-section { background: var(--white); border-top: 1.5px solid var(--border); text-align: center; }
-  .contact-sub { color: var(--text-muted); font-size: 15px; margin-bottom: 36px; }
-  .contact-links { display: flex; justify-content: center; gap: 28px; flex-wrap: wrap; }
-  .contact-link {
-    display: flex; align-items: center; gap: 8px;
-    color: var(--text-muted);
-    text-decoration: none; font-size: 14px;
-    transition: color 0.2s;
+  .contact-bg { background: var(--white); border-top: 1.5px solid var(--border); }
+  .contact-inner { text-align: center; }
+  .contact-sub { color: var(--text-muted); font-size: 15px; margin-bottom: 40px; line-height: 1.65; }
+  .contact-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    max-width: 700px;
+    margin: 0 auto;
   }
-  .contact-link:hover { color: var(--green-mid); }
-  .contact-link-icon { color: var(--green-mid); font-size: 16px; }
+  .contact-card {
+    background: var(--bg-alt);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 22px 18px;
+    text-decoration: none;
+    color: inherit;
+    transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+    display: flex; flex-direction: column; align-items: center; gap: 10px;
+  }
+  .contact-card:hover { border-color: var(--green-mid); box-shadow: 0 4px 16px rgba(27,94,59,0.1); transform: translateY(-2px); }
+  .contact-card-icon {
+    width: 44px; height: 44px;
+    background: var(--green-pale);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px;
+  }
+  .contact-card-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    color: var(--green-accent);
+    text-transform: uppercase;
+  }
+  .contact-card-value {
+    font-size: 13px;
+    color: var(--text-body);
+    font-weight: 500;
+    text-align: center;
+    word-break: break-all;
+  }
 
   /* FOOTER */
   footer {
@@ -357,11 +414,14 @@
     .nav-links { display: none; }
     .hero { padding: 100px 24px 60px; }
     .hero-grid { grid-template-columns: 1fr; gap: 40px; }
+    .hero-left { flex-direction: column; align-items: flex-start; }
+    .hero-photo-wrap { width: 110px; height: 110px; }
     .hero::before { display: none; }
     section { padding: 60px 24px; }
     .expertise-grid { grid-template-columns: 1fr; }
     .resume-cols { grid-template-columns: 1fr; gap: 40px; }
     .skills-wrapper { grid-template-columns: 1fr; }
+    .contact-grid { grid-template-columns: 1fr; max-width: 320px; }
     footer { padding: 20px 24px; }
   }
 </style>
@@ -383,196 +443,6 @@
 <!-- HERO -->
 <div class="hero">
   <div class="hero-grid">
-    <div>
-      <div class="hero-eyebrow">Personal Portfolio</div>
-      <h1 class="hero-name">Steven Putra<br><span>Tjhin</span></h1>
-      <p class="hero-tagline">
-        Mahasiswa Manajemen dengan fokus pada analisis pasar modal, riset keuangan, dan kepemimpinan organisasi. Berpengalaman dalam market research, fundamental analysis, serta pengelolaan kegiatan investasi.
-      </p>
-      <div class="hero-cta">
-        <a href="#resume" class="btn-primary">Lihat Pengalaman</a>
-        <a href="#contact" class="btn-outline">Hubungi Saya</a>
-      </div>
-    </div>
-    <div class="hero-stats">
-      <div class="stat-card">
-        <div class="stat-number">2023</div>
-        <div class="stat-label">Bergabung Universitas Kristen Krida Wacana — Sarjana Manajemen</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-number">MNC</div>
-        <div class="stat-label">Intern Market Research — Laporan Kinerja & Analisis Fundamental Emiten</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-number">KSPM</div>
-        <div class="stat-label">Sekretaris Kelompok Studi Pasar Modal — Kemitraan strategis & edukasi investasi</div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- EXPERTISE -->
-<div class="expertise-bg">
-<section id="expertise">
-  <div class="section-eyebrow">Bidang Keahlian</div>
-  <h2 class="section-title">Areas of Expertise</h2>
-  <div class="divider"></div>
-  <div class="expertise-grid">
-    <div class="expertise-card">
-      <div class="expertise-icon">📊</div>
-      <h3>Market Research</h3>
-      <p>Membuat laporan kinerja keuangan Emiten secara terstruktur dan menyediakan insight awal mengenai performa saham serta tren industri.</p>
-    </div>
-    <div class="expertise-card">
-      <div class="expertise-icon">📈</div>
-      <h3>Fundamental Analysis</h3>
-      <p>Menyusun analisis fundamental berdasarkan laporan keuangan dan data historis perusahaan untuk mendukung keputusan investasi.</p>
-    </div>
-    <div class="expertise-card">
-      <div class="expertise-icon">🏦</div>
-      <h3>Pasar Modal</h3>
-      <p>Menganalisis pergerakan saham secara konsisten setiap bulan menggunakan pendekatan analisis teknikal untuk diskusi investasi internal.</p>
-    </div>
-    <div class="expertise-card">
-      <div class="expertise-icon">🤝</div>
-      <h3>Kepemimpinan & Event</h3>
-      <p>Berpengalaman sebagai Ketua Pelaksana kegiatan skala besar, mengelola kepanitiaan dari perencanaan hingga pelaksanaan dengan tim lintas divisi.</p>
-    </div>
-    <div class="expertise-card">
-      <div class="expertise-icon">🗣️</div>
-      <h3>Public Speaking</h3>
-      <p>Aktif dalam sosialisasi dan edukasi keuangan kepada audiens eksternal, memperkenalkan program literasi pasar modal.</p>
-    </div>
-    <div class="expertise-card">
-      <div class="expertise-icon">📋</div>
-      <h3>Administrasi & Korespondensi</h3>
-      <p>Mengelola seluruh aspek korespondensi, penjadwalan, dan dokumentasi rapat organisasi sebagai Sekretaris KSPM UKRIDA.</p>
-    </div>
-  </div>
-</section>
-</div>
-
-<!-- RESUME -->
-<div class="resume-bg">
-<section id="resume">
-  <div class="section-eyebrow">Riwayat</div>
-  <h2 class="section-title">Pengalaman & Pendidikan</h2>
-  <div class="divider"></div>
-  <div class="resume-cols">
-    <div class="resume-col">
-      <h3>Pengalaman Kerja</h3>
-      <div class="timeline">
-        <div class="timeline-item">
-          <div class="timeline-date">Sep 2025 – Sekarang</div>
-          <div class="timeline-title">MNC Sekuritas Intern</div>
-          <div class="timeline-sub">Market Research Division</div>
-          <ul class="timeline-bullets">
-            <li>Membuat laporan kinerja keuangan beberapa Emiten sebagai dasar evaluasi perusahaan</li>
-            <li>Menyusun analisis fundamental dari laporan keuangan & data historis</li>
-            <li>Menyediakan insight performa saham dan tren industri</li>
-          </ul>
-        </div>
-        <div class="timeline-item">
-          <div class="timeline-date">Juni – Agustus 2023</div>
-          <div class="timeline-title">Teknisi Ponsel</div>
-          <div class="timeline-sub">Service Center</div>
-          <ul class="timeline-bullets">
-            <li>Berinteraksi langsung dengan pelanggan untuk konsultasi teknis</li>
-            <li>Merekomendasikan solusi perbaikan yang paling efektif dan efisien</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-    <div class="resume-col">
-      <h3>Pendidikan</h3>
-      <div class="timeline">
-        <div class="timeline-item">
-          <div class="timeline-date">2023 – Sekarang</div>
-          <div class="timeline-title">Sarjana Manajemen</div>
-          <div class="timeline-sub">Universitas Kristen Krida Wacana (UKRIDA)</div>
-          <p class="timeline-desc">Aktif dalam kegiatan organisasi dan kompetisi pasar modal.</p>
-        </div>
-        <div class="timeline-item">
-          <div class="timeline-date">2020 – 2023</div>
-          <div class="timeline-title">Sekolah Menengah Atas</div>
-          <div class="timeline-sub">SMA Kristen Immanuel</div>
-          <ul class="timeline-bullets">
-            <li>KSB Braindicator – Kompetisi Siswa dalam Pelajaran Geografi</li>
-          </ul>
-        </div>
-        <div class="timeline-item">
-          <div class="timeline-date">2017 – 2020</div>
-          <div class="timeline-title">Sekolah Menengah</div>
-          <div class="timeline-sub">SMA Kristen Immanuel</div>
-        </div>
-        <div class="timeline-item">
-          <div class="timeline-date">2011 – 2017</div>
-          <div class="timeline-title">Sekolah Dasar</div>
-          <div class="timeline-sub">SMA Kristen Immanuel — "Kasih Bangsa dan Kristen Immanuel"</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-</div>
-
-<!-- ORGANISASI -->
-<div class="org-bg">
-<section id="organisasi">
-  <div class="section-eyebrow">Keterlibatan</div>
-  <h2 class="section-title">Pengalaman Organisasi</h2>
-  <div class="divider"></div>
-  <div class="org-grid">
-    <div class="org-card">
-      <div class="org-header">
-        <div>
-          <div class="org-title">Sekretaris — KSPM (Kelompok Studi Pasar Modal)</div>
-          <div class="org-org">Universitas Kristen Krida Wacana (UKRIDA)</div>
-        </div>
-        <div class="org-date">Mar 2025 – Sekarang</div>
-      </div>
-      <ul class="org-bullets">
-        <li>Mengelola korespondensi, penjadwalan, dan dokumentasi rapat organisasi</li>
-        <li>Membangun kemitraan strategis dengan PT MNC Sekuritas untuk program edukasi pasar modal 2025</li>
-        <li>Menganalisis pergerakan saham secara konsisten dengan pendekatan teknikal untuk diskusi internal</li>
-        <li>Melaksanakan sosialisasi untuk meningkatkan literasi keuangan kepada audiens eksternal</li>
-      </ul>
-    </div>
-    <div class="org-card">
-      <div class="org-header">
-        <div>
-          <div class="org-title">Panitia Kegiatan Kompetisi Pasar Modal — UNVEST 2025</div>
-          <div class="org-org">UKRIDA</div>
-        </div>
-        <div class="org-date">2025</div>
-      </div>
-      <ul class="org-bullets">
-        <li>Menjalin komunikasi dan koordinasi kegiatan UNVEST agar kerja sama berjalan lancar</li>
-        <li>Mengawasi dan memastikan seluruh rangkaian kegiatan berjalan sesuai rencana</li>
-        <li>Memberikan penilaian dalam sesi perlombaan (Juri) sesuai kriteria yang ditentukan</li>
-      </ul>
-    </div>
-    <div class="org-card">
-      <div class="org-header">
-        <div>
-          <div class="org-title">Ketua Pelaksana — Roadshow Asean Investment Challenge 2025</div>
-          <div class="org-org">CGS International</div>
-        </div>
-        <div class="org-date">2025</div>
-      </div>
-      <ul class="org-bullets">
-        <li>Mengelola seluruh proses kegiatan CGS dari awal hingga akhir sesuai tujuan</li>
-        <li>Menyusun dan menetapkan struktur kepanitiaan bersama pengurus inti</li>
-        <li>Mengarahkan setiap divisi agar bekerja sesuai tugas dan tanggung jawabnya</li>
-        <li>Memastikan seluruh rangkaian kegiatan berjalan sesuai rencana dan tujuan</li>
-      </ul>
-    </div>
-    <div class="org-card">
-      <div class="org-header">
-        <div>
-          <div class="org-title">Ketua Pelaksana — Sekolah Pasar Modal: Generasi Cerdas Investasi 2025</div>
-          <div class="org-org">UKRIDA / GCI</div>
-        </div>
-        <div class="org-date">Nov 2025</div>
-      </div>
-      <ul class="org-bullet
+    <div class="hero-left">
+      <div class="hero-photo-wrap">
+        <img src="data:image/jpeg;base64,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
